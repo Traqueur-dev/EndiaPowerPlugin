@@ -1,7 +1,5 @@
 package fr.traqueur.endiapower.utils;
 
-
-import fr.traqueur.sphaleriapluginapi.SphaleriaAPI;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

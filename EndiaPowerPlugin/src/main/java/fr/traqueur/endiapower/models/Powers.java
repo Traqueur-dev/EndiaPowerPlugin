@@ -4,8 +4,6 @@ import fr.traqueur.endiapower.api.IPower;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.UUID;
-
 public enum Powers implements IPower {
 
     ARRESTO_MEMENTOMUN(1,"Arresto Mementomun", 1, Material.STICK),
