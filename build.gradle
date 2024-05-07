@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'fr.traqueur.endiapower'
-version = property('version')
+version = '0.1-DEV'
 
 def targetJavaVersion = 17
 java {
@@ -40,7 +40,7 @@ subprojects {
     apply plugin: 'java'
 
     group = 'fr.traqueur.endiapower'
-    version = property('version')
+    version = '0.1-DEV'
 
     repositories {
         mavenCentral()
