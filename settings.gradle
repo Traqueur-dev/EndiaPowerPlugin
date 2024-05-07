@@ -1,0 +1,6 @@
+rootProject.name = 'EndiaPower'
+
+include 'EndiaPowerAPI'
+project(':EndiaPowerAPI').projectDir = file('EndiaPowerAPI')
+include 'EndiaPowerPlugin'
+project(':EndiaPowerPlugin').projectDir = file('EndiaPowerPlugin')

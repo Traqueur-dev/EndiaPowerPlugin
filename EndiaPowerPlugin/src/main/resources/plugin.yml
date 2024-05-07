@@ -1,0 +1,4 @@
+name: EndiaPowerPlugin
+version: '${version}'
+main: fr.traqueur.endiapower.EndiaPowerPlugin
+api-version: '1.20'
