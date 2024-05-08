@@ -1,14 +1,14 @@
 package fr.traqueur.endiapower.managers;
 
 import fr.traqueur.endiapower.api.IPower;
-import fr.traqueur.endiapower.api.IPowerManager;
+import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IUser;
 import fr.traqueur.endiapower.models.Powers;
 import fr.traqueur.endiapower.models.User;
 
 import java.util.*;
 
-public class PowerManager implements IPowerManager {
+public class PowerManager implements IManager {
 
     private final Set<IPower> powers;
     private final HashMap<UUID, IUser> players;
@@ -47,8 +47,11 @@ public class PowerManager implements IPowerManager {
         return this.players.getOrDefault(uuid, new User(uuid)).getPowers();
     }
 
-    public void grantPower(UUID uuid, IPower power, int level) {
+    public void grantPower(UUID uuid, IPower power, int level) throws IllegalArgumentException {
         IUser user = this.players.getOrDefault(uuid, new User(uuid));
+        if (power.getMaxLevel() < level) {
+            throw new IllegalArgumentException("The level of the power is too high. (Max: " + power.getMaxLevel() + ")");
+        }
         user.grantPower(power, level);
         this.players.put(uuid, user);
     }

@@ -10,4 +10,5 @@ public interface IPower {
 
      int getId();
 
+     int getMaxLevel();
 }

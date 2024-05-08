@@ -12,7 +12,7 @@ public enum Powers implements IPower {
 
     private final int id;
     private final String name;
-    private final int level;
+    private final int maxLevel;
     private final Material icon;
 
      Powers(int id, String name, int level, Material icon) {
@@ -24,16 +24,12 @@ public enum Powers implements IPower {
          }
         this.id = id;
         this.name = name;
-        this.level = level;
+        this.maxLevel = level;
         this.icon = icon;
     }
 
     public String getName() {
         return this.name;
-    }
-
-    public int getLevel() {
-        return this.level;
     }
 
     public ItemStack getIcon() {
@@ -42,5 +38,10 @@ public enum Powers implements IPower {
 
     public int getId() {
         return this.id;
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return this.maxLevel;
     }
 }

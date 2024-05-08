@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 
-public interface IPowerManager {
+public interface IManager {
 
       void createPower(IPower power);
 

@@ -2,14 +2,14 @@ package fr.traqueur.endiapower.commands;
 
 import fr.traqueur.endiapower.EndiaPowerPlugin;
 import fr.traqueur.endiapower.api.commands.EndiaCommand;
-import fr.traqueur.endiapower.api.IPowerManager;
+import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.commands.arguments.Arguments;
 import fr.traqueur.endiapower.commands.admin.*;
 import org.bukkit.command.CommandSender;
 
 public class EndiaPowerCommand extends EndiaCommand {
 
-    private IPowerManager powerManager;
+    private IManager powerManager;
 
     public EndiaPowerCommand(EndiaPowerPlugin plugin) {
         super(plugin, "endiapower");
