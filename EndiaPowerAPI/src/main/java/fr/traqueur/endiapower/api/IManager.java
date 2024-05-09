@@ -25,4 +25,8 @@ public interface IManager {
 
       void revokePower(UUID uuid, IPower power);
 
+      void loadData();
+
+      void saveData();
+
 }

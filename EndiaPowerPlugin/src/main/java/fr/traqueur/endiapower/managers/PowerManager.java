@@ -1,19 +1,27 @@
 package fr.traqueur.endiapower.managers;
 
+import com.google.gson.reflect.TypeToken;
+import fr.traqueur.endiapower.EndiaPowerPlugin;
 import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IUser;
 import fr.traqueur.endiapower.models.Powers;
 import fr.traqueur.endiapower.models.User;
+import fr.traqueur.endiapower.utils.DiscUtils;
 
+import java.io.File;
 import java.util.*;
 
 public class PowerManager implements IManager {
 
+    private static final String PLAYERS_FILE = "players.json";
+
+    private final EndiaPowerPlugin plugin;
     private final Set<IPower> powers;
     private final HashMap<UUID, IUser> players;
 
-    public PowerManager() {
+    public PowerManager(EndiaPowerPlugin plugin) {
+        this.plugin = plugin;
         this.powers = new HashSet<>();
         this.players = new HashMap<>();
 
@@ -36,7 +44,7 @@ public class PowerManager implements IManager {
     }
 
     public IPower getPowerByName(String name) throws NoSuchElementException {
-        return this.powers.stream().filter(power -> power.getName().equals(name)).findFirst().orElseThrow();
+        return this.powers.stream().filter(power -> power.getName().equalsIgnoreCase(name)).findFirst().orElseThrow();
     }
 
     public Set<IPower> getPowers() {
@@ -66,4 +74,23 @@ public class PowerManager implements IManager {
         this.players.put(uuid, user);
     }
 
+    public File getFile(String name) {
+        return new File(this.plugin.getDataFolder(), name);
+    }
+
+    @Override
+    public void loadData() {
+        String content = DiscUtils.readCatch(this.getFile(PLAYERS_FILE));
+        if (content != null) {
+            TypeToken<HashMap<UUID, IUser>> type = new TypeToken<>() {
+            };
+            this.players.putAll(plugin.getGson().fromJson(content, type.getType()));
+        }
+
+    }
+
+    @Override
+    public void saveData() {
+        DiscUtils.writeCatch(this.getFile(PLAYERS_FILE), plugin.getGson().toJson(this.players));
+    }
 }
