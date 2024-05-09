@@ -15,6 +15,7 @@ import java.util.*;
 public class PowerManager implements IManager {
 
     private static final String PLAYERS_FILE = "players.json";
+    private static final String POWERS_FILE = "powers.json";
 
     private final EndiaPowerPlugin plugin;
     private final Set<IPower> powers;
@@ -24,10 +25,6 @@ public class PowerManager implements IManager {
         this.plugin = plugin;
         this.powers = new HashSet<>();
         this.players = new HashMap<>();
-
-        for (Powers value : Powers.values()) {
-            this.createPower(value);
-        }
     }
 
     public void createPower(IPower power) {
@@ -80,17 +77,30 @@ public class PowerManager implements IManager {
 
     @Override
     public void loadData() {
-        String content = DiscUtils.readCatch(this.getFile(PLAYERS_FILE));
+        String content = DiscUtils.readCatch(this.getFile(POWERS_FILE));
         if (content != null) {
-            TypeToken<HashMap<UUID, IUser>> type = new TypeToken<>() {
+            TypeToken<Set<IPower>> type = new TypeToken<>() {
             };
-            this.players.putAll(plugin.getGson().fromJson(content, type.getType()));
+            this.powers.addAll(plugin.getGson().fromJson(content, type.getType()));
+        }
+        //TODO:check why adapter doesn't work with this set
+        if(this.powers.isEmpty()) {
+            for (Powers value : Powers.values()) {
+                this.createPower(value);
+            }
         }
 
+        String contentPlayers = DiscUtils.readCatch(this.getFile(PLAYERS_FILE));
+        if (contentPlayers != null) {
+            TypeToken<HashMap<UUID, IUser>> type = new TypeToken<>() {
+            };
+            this.players.putAll(plugin.getGson().fromJson(contentPlayers, type.getType()));
+        }
     }
 
     @Override
     public void saveData() {
+        DiscUtils.writeCatch(this.getFile(POWERS_FILE), plugin.getGson().toJson(this.powers));
         DiscUtils.writeCatch(this.getFile(PLAYERS_FILE), plugin.getGson().toJson(this.players));
     }
 }
