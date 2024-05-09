@@ -17,6 +17,14 @@ public final class EndiaPowerPlugin extends JavaPlugin {
     private IManager powerManager;
 
     @Override
+    public void onLoad() {
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            this.getLogger().severe("PlaceholderAPI not found...");
+            this.getServer().shutdown();
+        }
+    }
+
+    @Override
     public void onEnable() {
         CommandManager commandManager = new CommandManager(this);
 
@@ -27,6 +35,8 @@ public final class EndiaPowerPlugin extends JavaPlugin {
 
         commandManager.registerConverter(IPower.class, "power", new PowerArgument(this.powerManager));
         commandManager.registerCommand(new EndiaPowerCommand(this));
+
+        EndiaPlaceholder.register(this);
     }
 
     @Override

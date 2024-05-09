@@ -78,7 +78,7 @@ public class CountdownUtils {
         countdowns.get(alias).put(player.getUniqueId(), next);
     }
 
-    public static String getCountdownRemaining(Player player, String name) {
+    public static String getCountdownRemaining(UUID player, String name) {
         return DurationFormatter.getRemaining(CountdownUtils.getCountdownForPlayerLong(name, player), true);
     }
 
@@ -96,20 +96,20 @@ public class CountdownUtils {
         return null;
     }
 
-    public static boolean isOnCountdown(String alias, Player player) {
-        if (countdowns.containsKey(alias) && countdowns.get(alias).containsKey(player.getUniqueId())
-                && System.currentTimeMillis() <= countdowns.get(alias).get(player.getUniqueId())) {
+    public static boolean isOnCountdown(String alias, UUID player) {
+        if (countdowns.containsKey(alias) && countdowns.get(alias).containsKey(player)
+                && System.currentTimeMillis() <= countdowns.get(alias).get(player)) {
             return true;
         }
         return false;
     }
 
-    public static int getCountdownForPlayerInt(String alias, Player player) {
+    public static int getCountdownForPlayerInt(String alias, UUID player) {
         return (int) CountdownUtils.getCountdownForPlayerLong(alias, player);
     }
 
-    public static long getCountdownForPlayerLong(String alias, Player player) {
-        return countdowns.get(alias).get(player.getUniqueId()) - System.currentTimeMillis();
+    public static long getCountdownForPlayerLong(String alias, UUID player) {
+        return countdowns.get(alias).get(player) - System.currentTimeMillis();
     }
 
     public static void clearCountdowns() {

@@ -35,8 +35,7 @@ public class EndiaPowerRevokeCommand extends EndiaCommand {
         UUID uuid = player.getUniqueId();
         IPower power = args.get("power");
 
-        Set<IPower> powers = powerManager.getPlayerPowers(uuid).keySet();
-        if(!powers.contains(power)) {
+        if(!this.powerManager.hasPower(uuid, power.getId())) {
             sender.sendMessage(Component.text("Ce joueur n'a pas accès à ce pouvoir.", NamedTextColor.RED));
             return;
         }

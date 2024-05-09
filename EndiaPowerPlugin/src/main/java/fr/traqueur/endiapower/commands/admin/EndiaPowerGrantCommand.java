@@ -38,7 +38,7 @@ public class EndiaPowerGrantCommand extends EndiaCommand {
         int level = optLevel.orElse(1);
 
         HashMap<IPower, Integer> powers = powerManager.getPlayerPowers(uuid);
-        if(powers.containsKey(power) && powers.get(power) == level) {
+        if(this.powerManager.hasPower(uuid,power.getId()) && powers.get(power) == level) {
             sender.sendMessage(Component.text("Ce joueur a déjà ce pouvoir.", NamedTextColor.RED));
             return;
         }

@@ -47,6 +47,10 @@ public class PowerManager implements IManager {
         return this.players.getOrDefault(uuid, new User(uuid)).getPowers();
     }
 
+    public boolean hasPower(UUID uuid, int id) {
+        return this.players.getOrDefault(uuid, new User(uuid)).getPowers().containsKey(this.getPower(id));
+    }
+
     public void grantPower(UUID uuid, IPower power, int level) throws IllegalArgumentException {
         IUser user = this.players.getOrDefault(uuid, new User(uuid));
         if (power.getMaxLevel() < level) {

@@ -19,6 +19,8 @@ public interface IManager {
 
       HashMap<IPower, Integer> getPlayerPowers(UUID uuid);
 
+      boolean hasPower(UUID uuid, int id);
+
       void grantPower(UUID uuid, IPower power, int level);
 
       void revokePower(UUID uuid, IPower power);
