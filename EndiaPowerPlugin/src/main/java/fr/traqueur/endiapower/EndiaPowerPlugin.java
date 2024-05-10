@@ -68,8 +68,8 @@ public final class EndiaPowerPlugin extends JavaPlugin {
         ret.setPrettyPrinting();
         ret.disableHtmlEscaping();
 
-        ret.registerTypeAdapter(IPower.class, new PowerAdapter());
-        ret.registerTypeAdapter(IUser.class, new UserAdapter(manager));
+        ret.registerTypeHierarchyAdapter(IPower.class, new PowerAdapter());
+        ret.registerTypeHierarchyAdapter(IUser.class, new UserAdapter(manager));
 
         return ret;
     }

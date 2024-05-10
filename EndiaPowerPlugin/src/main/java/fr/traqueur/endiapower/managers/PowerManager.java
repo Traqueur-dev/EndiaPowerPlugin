@@ -83,7 +83,7 @@ public class PowerManager implements IManager {
             };
             this.powers.addAll(plugin.getGson().fromJson(content, type.getType()));
         }
-        //TODO:check why adapter doesn't work with this set
+
         if(this.powers.isEmpty()) {
             for (Powers value : Powers.values()) {
                 this.createPower(value);
