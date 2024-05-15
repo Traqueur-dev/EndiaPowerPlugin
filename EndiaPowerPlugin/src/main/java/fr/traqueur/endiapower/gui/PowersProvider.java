@@ -5,10 +5,12 @@ import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.*;
 import fr.traqueur.endiapower.EndiaPowerPlugin;
 import fr.traqueur.endiapower.api.IManager;
+import fr.traqueur.endiapower.api.events.EndiaPowerLaunchEvent;
 import fr.traqueur.endiapower.utils.CountdownUtils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +19,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class PowersProvider implements InventoryProvider {
 
@@ -62,6 +63,11 @@ public class PowersProvider implements InventoryProvider {
                 String countdownName = power.getName().replace(" ", "_").toUpperCase();
                 if (CountdownUtils.isOnCountdown(countdownName, uuid)) {
                     player.sendMessage(Component.text("Vous ne pouvez pas utiliser de pouvoir.", NamedTextColor.RED));
+                    return;
+                }
+                EndiaPowerLaunchEvent event = new EndiaPowerLaunchEvent(player, power);
+                Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> Bukkit.getPluginManager().callEvent(event));
+                if (event.isCancelled()) {
                     return;
                 }
                 power.onUse(player);
