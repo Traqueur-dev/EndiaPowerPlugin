@@ -44,7 +44,7 @@ public class PowersProvider implements InventoryProvider {
         Pagination pagination = inventoryContents.pagination();
         List<ClickableItem> items = new ArrayList<>();
 
-        this.powerManager.getPlayerPowers(uuid).forEach((power,level) -> {
+        this.powerManager.getAllPlayerPowers(uuid).forEach((power, level) -> {
             ItemStack item = new ItemStack(power.getIcon());
             ItemMeta meta = item.getItemMeta();
             List<Component> lore = new ArrayList<>();

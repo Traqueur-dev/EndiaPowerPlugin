@@ -9,7 +9,9 @@ import fr.traqueur.endiapower.api.IUser;
 import fr.traqueur.endiapower.api.commands.CommandManager;
 import fr.traqueur.endiapower.commands.EndiaPowerCommand;
 import fr.traqueur.endiapower.commands.arguments.PowerArgument;
+import fr.traqueur.endiapower.hooks.FactionUser;
 import fr.traqueur.endiapower.managers.PowerManager;
+import fr.traqueur.endiapower.models.adapters.ClassUserAdapter;
 import fr.traqueur.endiapower.models.adapters.PowerAdapter;
 import fr.traqueur.endiapower.models.adapters.UserAdapter;
 import fr.traqueur.endiapower.utils.CountdownUtils;
@@ -45,6 +47,8 @@ public final class EndiaPowerPlugin extends JavaPlugin {
         this.powerManager = new PowerManager(this);
         this.getServer().getServicesManager().register(IManager.class, this.powerManager, this, ServicePriority.Normal);
 
+        this.powerManager.registerHook(FactionUser.class);
+
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.init();
 
@@ -74,6 +78,7 @@ public final class EndiaPowerPlugin extends JavaPlugin {
 
         ret.registerTypeHierarchyAdapter(IPower.class, new PowerAdapter());
         ret.registerTypeHierarchyAdapter(IUser.class, new UserAdapter(manager));
+        ret.registerTypeHierarchyAdapter(Class.class, new ClassUserAdapter(manager));
 
         return ret;
     }

@@ -6,9 +6,10 @@ import com.google.gson.stream.JsonWriter;
 import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IUser;
-import fr.traqueur.endiapower.models.User;
+import fr.traqueur.endiapower.models.PlayerUser;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,6 +26,7 @@ public class UserAdapter extends TypeAdapter<IUser> {
     public void write(JsonWriter jsonWriter, IUser iUser) throws IOException {
 
         jsonWriter.beginObject();
+        jsonWriter.name("class").value(iUser.getClass().getName());
         jsonWriter.name("uuid").value(iUser.getUUID().toString());
         jsonWriter.name("powers").beginObject();
         for (Map.Entry<IPower, Integer> entry : iUser.getPowers().entrySet()) {
@@ -36,11 +38,13 @@ public class UserAdapter extends TypeAdapter<IUser> {
 
     @Override
     public IUser read(JsonReader jsonReader) throws IOException {
+        String className = null;
         UUID uuid = null;
         HashMap<IPower, Integer> powers = new HashMap<>();
         jsonReader.beginObject();
         while (jsonReader.hasNext()) {
             switch (jsonReader.nextName()) {
+                case "class" -> className = jsonReader.nextString();
                 case "uuid" -> uuid = UUID.fromString(jsonReader.nextString());
                 case "powers" -> {
                     jsonReader.beginObject();
@@ -53,6 +57,11 @@ public class UserAdapter extends TypeAdapter<IUser> {
         }
         jsonReader.endObject();
 
-        return new User(uuid, powers);
+        try {
+            return Class.forName(className).asSubclass(IUser.class).getConstructor(UUID.class, HashMap.class).newInstance(uuid, powers);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                 ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -62,7 +62,7 @@ public class EndiaPlaceholder extends PlaceholderExpansion {
                 returnValue = "X";
             }
         } else if (params.contains(LEVEL)) {
-            returnValue = String.valueOf(powerManager.getPlayerPowers(player.getUniqueId()).getOrDefault(power, -1));
+            returnValue = String.valueOf(powerManager.getAllPlayerPowers(player.getUniqueId()).getOrDefault(power, -1));
         } else {
             returnValue = "Error";
         }

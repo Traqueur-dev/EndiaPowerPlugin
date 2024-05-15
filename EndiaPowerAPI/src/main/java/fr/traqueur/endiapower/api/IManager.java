@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public interface IManager {
 
+      void registerHook(Class<? extends IUser> clazz);
+
       void createPower(IPower power);
 
       void removePower(int id) throws NoSuchElementException;
@@ -17,7 +19,13 @@ public interface IManager {
 
       Set<IPower> getPowers();
 
-      HashMap<IPower, Integer> getPlayerPowers(UUID uuid);
+      HashMap<IPower, Integer> getAllPlayerPowers(UUID uuid);
+
+      HashMap<IPower, Integer> getOnlyPlayerPowers(UUID uuid);
+
+      IUser getUser(UUID uuid, Class<? extends IUser> clazz);
+
+      void addUser(UUID uuid, Class<? extends IUser> user);
 
       boolean hasPower(UUID uuid, int id);
 
@@ -28,5 +36,4 @@ public interface IManager {
       void loadData();
 
       void saveData();
-
 }

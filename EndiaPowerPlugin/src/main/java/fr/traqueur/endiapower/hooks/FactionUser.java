@@ -1,4 +1,4 @@
-package fr.traqueur.endiapower.models;
+package fr.traqueur.endiapower.hooks;
 
 import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IUser;
@@ -6,11 +6,7 @@ import fr.traqueur.endiapower.api.IUser;
 import java.util.HashMap;
 import java.util.UUID;
 
-public record User(UUID uuid, HashMap<IPower, Integer> powers) implements IUser {
-
-    public User(UUID uuid) {
-        this(uuid, new HashMap<>());
-    }
+public record FactionUser(UUID uuid, HashMap<IPower, Integer> powers) implements IUser {
 
     @Override
     public UUID getUUID() {
@@ -32,5 +28,10 @@ public record User(UUID uuid, HashMap<IPower, Integer> powers) implements IUser 
         this.powers.remove(power);
     }
 
-
+    @Override
+    public boolean hasPlayer(UUID player) {
+        //get faction, check if player is in faction
+        //but we don't have the faction plugin
+        return true;
+    }
 }

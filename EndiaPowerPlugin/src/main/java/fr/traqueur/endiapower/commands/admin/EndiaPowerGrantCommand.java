@@ -5,6 +5,7 @@ import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.commands.EndiaCommand;
 import fr.traqueur.endiapower.api.commands.arguments.Arguments;
+import fr.traqueur.endiapower.models.PlayerUser;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
@@ -40,7 +41,7 @@ public class EndiaPowerGrantCommand extends EndiaCommand {
         Optional<Integer> optLevel = args.getOptional("int");
         int level = optLevel.orElse(1);
 
-        HashMap<IPower, Integer> powers = powerManager.getPlayerPowers(uuid);
+        HashMap<IPower, Integer> powers = powerManager.getAllPlayerPowers(uuid);
         if(this.powerManager.hasPower(uuid,power.getId()) && powers.get(power) == level) {
             sender.sendMessage(Component.text("Ce joueur a déjà ce pouvoir.", NamedTextColor.RED));
             return;
@@ -49,6 +50,14 @@ public class EndiaPowerGrantCommand extends EndiaCommand {
         try {
             this.powerManager.grantPower(uuid, power, level);
         } catch (IllegalArgumentException e) {
+           this.powerManager.addUser(uuid, PlayerUser.class);
+           try {
+               this.powerManager.grantPower(uuid, power, level);
+           } catch (IllegalArgumentException | IndexOutOfBoundsException e2) {
+               sender.sendMessage(Component.text(e.getMessage(), NamedTextColor.RED));
+               return;
+           }
+        } catch (IndexOutOfBoundsException e) {
             sender.sendMessage(Component.text(e.getMessage(), NamedTextColor.RED));
             return;
         }
