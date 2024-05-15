@@ -54,12 +54,13 @@ public final class EndiaPowerPlugin extends JavaPlugin {
 
         this.gson = this.createGsonBuilder(this.powerManager).create();
 
-        this.powerManager.loadData();
-
         commandManager.registerConverter(IPower.class, "power", new PowerArgument(this.powerManager));
         commandManager.registerCommand(new EndiaPowerCommand(this));
 
         EndiaPlaceholder.register(this);
+
+        //Permet de run la load à la toute fin du chargement de tout les plugins
+        Bukkit.getScheduler().runTask(this, this.powerManager::loadData);
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, powerManager::saveData, 0L, 20L * TimeUnit.HOURS.toSeconds(1));
     }
