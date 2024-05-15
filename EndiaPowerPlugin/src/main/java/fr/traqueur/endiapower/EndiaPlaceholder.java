@@ -4,12 +4,10 @@ import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.utils.CountdownUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 

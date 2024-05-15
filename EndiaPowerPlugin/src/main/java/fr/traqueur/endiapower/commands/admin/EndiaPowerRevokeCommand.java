@@ -1,8 +1,8 @@
 package fr.traqueur.endiapower.commands.admin;
 
 import fr.traqueur.endiapower.EndiaPowerPlugin;
-import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IManager;
+import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.commands.EndiaCommand;
 import fr.traqueur.endiapower.api.commands.arguments.Arguments;
 import net.kyori.adventure.text.Component;
@@ -10,7 +10,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Set;
 import java.util.UUID;
 
 public class EndiaPowerRevokeCommand extends EndiaCommand {

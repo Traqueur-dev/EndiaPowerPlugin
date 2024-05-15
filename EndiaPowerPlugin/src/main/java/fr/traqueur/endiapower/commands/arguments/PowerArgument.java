@@ -1,7 +1,7 @@
 package fr.traqueur.endiapower.commands.arguments;
 
-import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IManager;
+import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.commands.arguments.ArgumentConverter;
 import fr.traqueur.endiapower.api.commands.arguments.TabConverter;
 

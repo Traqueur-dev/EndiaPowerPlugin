@@ -3,17 +3,11 @@ package fr.traqueur.endiapower.models.adapters;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IPower;
-import fr.traqueur.endiapower.api.IUser;
-import fr.traqueur.endiapower.models.User;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class PowerAdapter extends TypeAdapter<IPower> {
 

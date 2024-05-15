@@ -2,8 +2,8 @@ package fr.traqueur.endiapower.managers;
 
 import com.google.gson.reflect.TypeToken;
 import fr.traqueur.endiapower.EndiaPowerPlugin;
-import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IManager;
+import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IUser;
 import fr.traqueur.endiapower.models.Powers;
 import fr.traqueur.endiapower.models.User;
@@ -16,10 +16,12 @@ public class PowerManager implements IManager {
 
     private static final String PLAYERS_FILE = "players.json";
     private static final String POWERS_FILE = "powers.json";
+    private static final TypeToken<Set<IPower>> TYPE_POWERS = new TypeToken<>() {};
+    private static final TypeToken<Map<UUID, IUser>> TYPE_PLAYERS = new TypeToken<>() {};
 
     private final EndiaPowerPlugin plugin;
     private final Set<IPower> powers;
-    private final HashMap<UUID, IUser> players;
+    private final Map<UUID, IUser> players;
 
     public PowerManager(EndiaPowerPlugin plugin) {
         this.plugin = plugin;
@@ -79,9 +81,7 @@ public class PowerManager implements IManager {
     public void loadData() {
         String content = DiscUtils.readCatch(this.getFile(POWERS_FILE));
         if (content != null) {
-            TypeToken<Set<IPower>> type = new TypeToken<>() {
-            };
-            this.powers.addAll(plugin.getGson().fromJson(content, type.getType()));
+            this.powers.addAll(plugin.getGson().fromJson(content, TYPE_POWERS.getType()));
         }
 
         if(this.powers.isEmpty()) {
@@ -92,9 +92,7 @@ public class PowerManager implements IManager {
 
         String contentPlayers = DiscUtils.readCatch(this.getFile(PLAYERS_FILE));
         if (contentPlayers != null) {
-            TypeToken<HashMap<UUID, IUser>> type = new TypeToken<>() {
-            };
-            this.players.putAll(plugin.getGson().fromJson(contentPlayers, type.getType()));
+            this.players.putAll(plugin.getGson().fromJson(contentPlayers, TYPE_PLAYERS.getType()));
         }
     }
 
