@@ -5,9 +5,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.concurrent.TimeUnit;
+
 public enum Powers implements IPower {
 
     ARRESTO_MEMENTOMUN(1,"Arresto Mementomun", 3, Material.STICK) {
+        @Override
+        public int getCountdown() {
+            return (int) TimeUnit.MINUTES.toSeconds(10);
+        }
+
         @Override
         public void onUse(Player player) {}
     },

@@ -51,8 +51,8 @@ public class PowersProvider implements InventoryProvider {
             meta.displayName(Component.text(power.getName(), NamedTextColor.YELLOW));
             lore.add(Component.text(PlaceholderAPI.setPlaceholders(player, "Niveau: %endiapower_level_"+power.getId() +"%"), NamedTextColor.GRAY));
 
-            String countdown = PlaceholderAPI.setPlaceholders(player, "Countdown: %endiapower_cooldown_" + power.getId()+"%");
-            lore.add(Component.text(countdown.equals("X") ? "disponible" : countdown,countdown.equals("X") ? NamedTextColor.GREEN : NamedTextColor.RED));
+            String countdown = PlaceholderAPI.setPlaceholders(player, "%endiapower_cooldown_" + power.getId()+"%");
+            lore.add(Component.text("Countdown: " + (countdown.equals("X") ? "disponible" : countdown),countdown.equals("X") ? NamedTextColor.GREEN : NamedTextColor.RED));
 
             meta.lore(lore);
             item.setItemMeta(meta);
@@ -65,7 +65,7 @@ public class PowersProvider implements InventoryProvider {
                     return;
                 }
                 power.onUse(player);
-                CountdownUtils.addCountdown(countdownName, uuid, (int) TimeUnit.MINUTES.toSeconds(10));
+                CountdownUtils.addCountdown(countdownName, uuid, power.getCountdown());
             }));
         });
 

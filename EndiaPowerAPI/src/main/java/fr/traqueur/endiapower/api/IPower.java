@@ -13,5 +13,7 @@ public interface IPower {
 
      int getMaxLevel();
 
+     int getCountdown();
+
     void onUse(Player player);
 }
