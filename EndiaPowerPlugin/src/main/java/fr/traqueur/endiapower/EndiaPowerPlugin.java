@@ -2,6 +2,7 @@ package fr.traqueur.endiapower;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import fr.minuskube.inv.InventoryManager;
 import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IPower;
 import fr.traqueur.endiapower.api.IUser;
@@ -24,6 +25,7 @@ public final class EndiaPowerPlugin extends JavaPlugin {
 
     private Gson gson;
     private IManager powerManager;
+    private InventoryManager inventoryManager;
 
     @Override
     public void onLoad() {
@@ -43,6 +45,8 @@ public final class EndiaPowerPlugin extends JavaPlugin {
         this.powerManager = new PowerManager(this);
         this.getServer().getServicesManager().register(IManager.class, this.powerManager, this, ServicePriority.Normal);
 
+        this.inventoryManager = new InventoryManager(this);
+        this.inventoryManager.init();
 
         this.gson = this.createGsonBuilder(this.powerManager).create();
 
@@ -80,5 +84,9 @@ public final class EndiaPowerPlugin extends JavaPlugin {
 
     public Gson getGson() {
         return this.gson;
+    }
+
+    public InventoryManager getInventoryManager() {
+        return this.inventoryManager;
     }
 }

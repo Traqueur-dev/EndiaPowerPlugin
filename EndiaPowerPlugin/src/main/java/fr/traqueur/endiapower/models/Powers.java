@@ -2,11 +2,15 @@ package fr.traqueur.endiapower.models;
 
 import fr.traqueur.endiapower.api.IPower;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public enum Powers implements IPower {
 
-    ARRESTO_MEMENTOMUN(1,"Arresto Mementomun", 3, Material.STICK),
+    ARRESTO_MEMENTOMUN(1,"Arresto Mementomun", 3, Material.STICK) {
+        @Override
+        public void onUse(Player player) {}
+    },
 
     ;
 

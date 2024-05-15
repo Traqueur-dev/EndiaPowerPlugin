@@ -29,6 +29,7 @@ processResources {
 
 shadowJar {
     from(project(':EndiaPowerAPI').sourceSets.main.output)
+    relocate 'fr.minuskube.inv', 'fr.traqueur.endiapower.utils.inv'
 }
 
 assemble.dependsOn shadowJar

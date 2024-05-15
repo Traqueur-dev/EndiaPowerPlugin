@@ -70,23 +70,23 @@ public class CountdownUtils {
         countdowns.put(alias, new HashMap<>());
     }
 
-    public static void addCountdown(String alias, Player player, int seconds) {
+    public static void addCountdown(String alias, UUID player, int seconds) {
         if (!countdowns.containsKey(alias)) {
             CountdownUtils.createCountdown(alias);
         }
         long next = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(seconds);
-        countdowns.get(alias).put(player.getUniqueId(), next);
+        countdowns.get(alias).put(player, next);
     }
 
     public static String getCountdownRemaining(UUID player, String name) {
         return DurationFormatter.getRemaining(CountdownUtils.getCountdownForPlayerLong(name, player), true);
     }
 
-    public static void removeCountdown(String alias, Player player) {
+    public static void removeCountdown(String alias, UUID player) {
         if (!countdowns.containsKey(alias)) {
             return;
         }
-        countdowns.get(alias).remove(player.getUniqueId());
+        countdowns.get(alias).remove(player);
     }
 
     public static HashMap<UUID, Long> getCountdownMap(String alias) {

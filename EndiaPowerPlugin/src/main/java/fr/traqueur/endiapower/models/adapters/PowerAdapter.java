@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import fr.traqueur.endiapower.api.IPower;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
@@ -74,5 +75,8 @@ public class PowerAdapter extends TypeAdapter<IPower> {
         public int getMaxLevel() {
             return this.maxLevel;
         }
+
+        @Override
+        public void onUse(Player player) {}
     }
 }
