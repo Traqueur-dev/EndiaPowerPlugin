@@ -55,7 +55,7 @@ public class EndiaPlaceholder extends PlaceholderExpansion {
         if (params.contains(ACCESS_TO)) {
             returnValue = powerManager.hasPower(player.getUniqueId(), powerId) ? "true" : "false";
         } else if (params.contains(COOLDOWN)) {
-            String name = power.getName().replace(" ", "_");
+            String name = power.getName().replace(" ", "_").toUpperCase();
             if (CountdownUtils.isOnCountdown(name, player.getUniqueId())) {
                 returnValue = CountdownUtils.getCountdownRemaining(player.getUniqueId(), name);
             } else {

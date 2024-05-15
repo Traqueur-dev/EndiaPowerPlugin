@@ -6,11 +6,13 @@ import fr.minuskube.inv.content.*;
 import fr.traqueur.endiapower.EndiaPowerPlugin;
 import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.utils.CountdownUtils;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +38,26 @@ public class PowersProvider implements InventoryProvider {
         this.powerManager = plugin.getPowerManager();
     }
 
-    @Override
-    public void init(Player player, InventoryContents inventoryContents) {
+    public Pagination setupContent(Player player, InventoryContents inventoryContents) {
         UUID uuid = player.getUniqueId();
         Pagination pagination = inventoryContents.pagination();
         List<ClickableItem> items = new ArrayList<>();
 
         this.powerManager.getPlayerPowers(uuid).forEach((power,level) -> {
-            items.add(ClickableItem.of(power.getIcon(), e -> {
+            ItemStack item = new ItemStack(power.getIcon());
+            ItemMeta meta = item.getItemMeta();
+            List<Component> lore = new ArrayList<>();
+
+            meta.displayName(Component.text(power.getName(), NamedTextColor.YELLOW));
+            lore.add(Component.text(PlaceholderAPI.setPlaceholders(player, "Niveau: %endiapower_level_"+power.getId() +"%"), NamedTextColor.GRAY));
+
+            String countdown = PlaceholderAPI.setPlaceholders(player, "Countdown: %endiapower_cooldown_" + power.getId()+"%");
+            lore.add(Component.text(countdown.equals("X") ? "disponible" : countdown,countdown.equals("X") ? NamedTextColor.GREEN : NamedTextColor.RED));
+
+            meta.lore(lore);
+            item.setItemMeta(meta);
+
+            items.add(ClickableItem.of(item, e -> {
                 player.closeInventory();
                 String countdownName = power.getName().replace(" ", "_").toUpperCase();
                 if (CountdownUtils.isOnCountdown(countdownName, uuid)) {
@@ -58,6 +72,12 @@ public class PowersProvider implements InventoryProvider {
         pagination.setItems(items.toArray(ClickableItem[]::new));
         pagination.setItemsPerPage(45);
         pagination.addToIterator(inventoryContents.newIterator(SlotIterator.Type.HORIZONTAL, 0, 0));
+        return pagination;
+    }
+
+    @Override
+    public void init(Player player, InventoryContents inventoryContents) {
+        Pagination pagination = this.setupContent(player, inventoryContents);
 
         inventoryContents.set(5, 3, ClickableItem.of(new ItemStack(Material.ARROW),
                 e -> getInventory(this.plugin).open(player, pagination.previous().getPage())));
@@ -66,5 +86,7 @@ public class PowersProvider implements InventoryProvider {
     }
 
     @Override
-    public void update(Player player, InventoryContents inventoryContents) {}
+    public void update(Player player, InventoryContents inventoryContents) {
+        this.setupContent(player, inventoryContents);
+    }
 }
