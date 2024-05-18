@@ -46,13 +46,13 @@ subprojects {
         mavenCentral()
         maven { url = 'https://repo.papermc.io/repository/maven-public/' }
         maven {url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'}
+        maven { url 'https://jitpack.io' }
     }
 
     dependencies {
         compileOnly 'io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT'
         compileOnly 'me.clip:placeholderapi:2.11.5'
-
-        implementation('fr.minuskube.inv:smart-invs:1.2.7')
+        compileOnly 'com.github.Maxlego08:zMenu-API:1.0.3.1'
     }
 }
 

@@ -1,0 +1,17 @@
+name: '&fPowers'
+size: 54
+items:
+  previous-btn:
+    slot: 48
+    item:
+      material: ARROW
+      name: '&ePage précédente'
+    type: PREVIOUS
+    isPermanent: true
+  next-btn:
+    slot: 50
+    item:
+      material: ARROW
+      name: '&ePage suivante'
+    type: NEXT
+    isPermanent: true
