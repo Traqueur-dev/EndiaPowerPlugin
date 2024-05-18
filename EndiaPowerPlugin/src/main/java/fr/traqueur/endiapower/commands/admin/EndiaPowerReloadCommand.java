@@ -25,6 +25,7 @@ public class EndiaPowerReloadCommand extends EndiaCommand {
 
     @Override
     public void execute(CommandSender sender, Arguments args) {
-
+        this.powerManager.reload();
+        sender.sendMessage("§aLe plugin a été rechargé.");
     }
 }

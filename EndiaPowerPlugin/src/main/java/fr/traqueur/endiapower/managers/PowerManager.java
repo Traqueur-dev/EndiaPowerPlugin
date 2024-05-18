@@ -185,4 +185,9 @@ public class PowerManager implements IManager {
         DiscUtils.writeCatch(this.getFile(POWERS_FILE), plugin.getGson().toJson(this.powers));
         DiscUtils.writeCatch(this.getFile(USERS_FILE), plugin.getGson().toJson(this.users));
     }
+
+    @Override
+    public void reload() {
+        this.loadData();
+    }
 }

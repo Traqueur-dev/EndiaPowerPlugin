@@ -36,4 +36,6 @@ public interface IManager {
       void loadData();
 
       void saveData();
+
+      void reload();
 }
