@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+/**
+ * Command to revoke a power to a player
+ */
 public class EndiaPowerRevokeCommand extends EndiaCommand {
 
     private IManager powerManager;

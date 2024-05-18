@@ -7,6 +7,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Enumération des pouvoirs
+ */
 public enum Powers implements IPower {
 
     ARRESTO_MEMENTOMUN(1,"Arresto Mementomun", 3, Material.STICK) {

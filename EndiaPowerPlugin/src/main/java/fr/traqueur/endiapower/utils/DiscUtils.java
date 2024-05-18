@@ -2,6 +2,9 @@ package fr.traqueur.endiapower.utils;
 
 import java.io.*;
 
+/**
+ * This class contains methods for reading and writing files to and from disk.
+ */
 public class DiscUtils {
 	// -------------------------------------------- //
 	// CONSTANTS

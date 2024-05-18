@@ -86,8 +86,7 @@ public class PowerManager implements IManager {
         });
         return playersPowers;
     }
-
-    @Override
+    
     public IUser getUser(UUID uuid, Class<? extends IUser> clazz) {
         AtomicReference<IUser> user = new AtomicReference<>();
         this.users.get(clazz).forEach((uuidUser, userInner) -> {

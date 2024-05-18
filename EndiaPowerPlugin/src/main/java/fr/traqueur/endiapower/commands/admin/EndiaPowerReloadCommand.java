@@ -6,9 +6,12 @@ import fr.traqueur.endiapower.api.commands.EndiaCommand;
 import fr.traqueur.endiapower.api.commands.arguments.Arguments;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Command to reload the plugin
+ */
 public class EndiaPowerReloadCommand extends EndiaCommand {
 
-    private IManager powerManager;
+    private final IManager powerManager;
 
     public EndiaPowerReloadCommand(EndiaPowerPlugin plugin) {
         super(plugin, "reload");

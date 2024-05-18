@@ -8,8 +8,15 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * Classe représentant un utilisateur
+ */
 public record PlayerUser(UUID uuid, HashMap<IPower, Integer> powers) implements IUser {
 
+    /**
+     * Constructeur de la classe PlayerUser
+     * @param uuid L'UUID du joueur
+     */
     public PlayerUser(UUID uuid) {
         this(uuid, new HashMap<>());
     }

@@ -13,6 +13,10 @@ public class EndiaPowerCommand extends EndiaCommand {
 
     private final EndiaPowerPlugin plugin;
 
+    /**
+     * Constructor of the EndiaPowerCommand
+     * @param plugin
+     */
     public EndiaPowerCommand(EndiaPowerPlugin plugin) {
         super(plugin, "endiapower");
 

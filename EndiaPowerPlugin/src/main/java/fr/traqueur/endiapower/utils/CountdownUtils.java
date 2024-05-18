@@ -13,11 +13,18 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+/**
+ * Utility class to manage countdowns
+ */
 public class CountdownUtils {
     private static final HashMap<String, HashMap<UUID, Long>> countdowns = new HashMap<>();
 
     private static final String FILE_NAME = "countdowns.yml";
 
+    /**
+     * Save the countdowns to the file
+     * @param plugin the plugin
+     */
     public static void saveCountdownsToFile(JavaPlugin plugin) {
         File file = new File(plugin.getDataFolder(), FILE_NAME);
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -37,6 +44,10 @@ public class CountdownUtils {
         }
     }
 
+    /**
+     * Load the countdowns from the file
+     * @param plugin the plugin
+     */
     public static void loadCountdownsFromFile(JavaPlugin plugin) {
         File file = new File(plugin.getDataFolder(), FILE_NAME);
         if (!file.exists()) {
@@ -63,6 +74,10 @@ public class CountdownUtils {
     }
 
 
+    /**
+     * Create a new countdown
+     * @param alias the alias of the countdown
+     */
     public static void createCountdown(String alias) {
         if (countdowns.containsKey(alias)) {
             return;
@@ -70,6 +85,12 @@ public class CountdownUtils {
         countdowns.put(alias, new HashMap<>());
     }
 
+    /**
+     * Add a countdown for a player
+     * @param alias the alias of the countdown
+     * @param player the player
+     * @param seconds the duration of the countdown
+     */
     public static void addCountdown(String alias, UUID player, int seconds) {
         if (!countdowns.containsKey(alias)) {
             CountdownUtils.createCountdown(alias);
@@ -78,24 +99,22 @@ public class CountdownUtils {
         countdowns.get(alias).put(player, next);
     }
 
+    /**
+     * Get the remaining time of the countdown for a player
+     * @param player the player
+     * @param name the name of the countdown
+     * @return the remaining time
+     */
     public static String getCountdownRemaining(UUID player, String name) {
         return DurationFormatter.getRemaining(CountdownUtils.getCountdownForPlayerLong(name, player), true);
     }
 
-    public static void removeCountdown(String alias, UUID player) {
-        if (!countdowns.containsKey(alias)) {
-            return;
-        }
-        countdowns.get(alias).remove(player);
-    }
-
-    public static HashMap<UUID, Long> getCountdownMap(String alias) {
-        if (countdowns.containsKey(alias)) {
-            return countdowns.get(alias);
-        }
-        return null;
-    }
-
+    /**
+     * Check if a player is on a countdown
+     * @param alias the alias of the countdown
+     * @param player the player
+     * @return true if the player is on the countdown
+     */
     public static boolean isOnCountdown(String alias, UUID player) {
         if (countdowns.containsKey(alias) && countdowns.get(alias).containsKey(player)
                 && System.currentTimeMillis() <= countdowns.get(alias).get(player)) {
@@ -104,15 +123,13 @@ public class CountdownUtils {
         return false;
     }
 
-    public static int getCountdownForPlayerInt(String alias, UUID player) {
-        return (int) CountdownUtils.getCountdownForPlayerLong(alias, player);
-    }
-
+    /**
+     * Get the remaining time of the countdown for a player
+     * @param alias the alias of the countdown
+     * @param player the player
+     * @return the remaining time
+     */
     public static long getCountdownForPlayerLong(String alias, UUID player) {
         return countdowns.get(alias).get(player) - System.currentTimeMillis();
-    }
-
-    public static void clearCountdowns() {
-        countdowns.clear();
     }
 }

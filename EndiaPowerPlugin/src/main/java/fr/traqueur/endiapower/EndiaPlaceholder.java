@@ -19,25 +19,46 @@ public class EndiaPlaceholder extends PlaceholderExpansion {
 
     private final IManager powerManager;
 
+    /**
+     * Constructeur privé pour empêcher l'instanciation de la classe.
+     *
+     * @param plugin Instance du plugin
+     */
     private EndiaPlaceholder(EndiaPowerPlugin plugin) {
         this.powerManager = plugin.getPowerManager();
     }
 
+    /**
+     * Cette méthode doit retourner le nom du placeholder.
+     */
     @Override
     public @NotNull String getIdentifier() {
         return "endiapower";
     }
 
+    /**
+     * Cette méthode doit retourner le nom de l'auteur du plugin.
+     */
     @Override
     public @NotNull String getAuthor() {
         return "Traqueur_";
     }
 
+    /**
+     * Cette méthode doit retourner la version du plugin.
+    */
     @Override
     public @NotNull String getVersion() {
         return "0.1-DEV";
     }
 
+    /**
+     * Cette méthode est appelée par PlaceholderAPI pour obtenir la valeur d'un placeholder.
+     *
+     * @param player Joueur qui demande le placeholder
+     * @param params Paramètres du placeholder
+     * @return La valeur du placeholder
+     */
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String params) {
         LinkedList<String> paramsList = new LinkedList<>(List.of(params.split("_")));
@@ -70,6 +91,11 @@ public class EndiaPlaceholder extends PlaceholderExpansion {
         return returnValue;
     }
 
+    /**
+     * Enregistre le placeholder dans PlaceholderAPI.
+     *
+     * @param plugin Instance du plugin
+     */
     public static void register(EndiaPowerPlugin plugin) {
         new EndiaPlaceholder(plugin).register();
     }

@@ -16,10 +16,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Command to grant a power to a player
+ */
 public class EndiaPowerGrantCommand extends EndiaCommand {
 
     private final IManager powerManager;
 
+    /**
+     * Constructor of the EndiaPowerGrantCommand
+     * @param plugin
+     */
     public EndiaPowerGrantCommand(EndiaPowerPlugin plugin) {
         super(plugin, "grantpower");
 

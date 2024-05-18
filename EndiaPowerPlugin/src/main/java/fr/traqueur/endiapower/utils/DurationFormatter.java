@@ -7,11 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class is used to format the duration of a time in a readable format.
+ */
 public class DurationFormatter {
 	private static final long oneMinute = TimeUnit.MINUTES.toMillis(1);
 	private static final long oneHour = TimeUnit.HOURS.toMillis(1);
 	private static final long oneDay = TimeUnit.DAYS.toMillis(1);
-	public static SimpleDateFormat frenchDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	public static ThreadLocal<DecimalFormat> remainingSeconds = ThreadLocal.withInitial(() -> new DecimalFormat("0.#"));
 	public static ThreadLocal<DecimalFormat> remainingSecondsTrailing = ThreadLocal.withInitial(() -> new DecimalFormat("0.0"));
 
@@ -30,18 +32,6 @@ public class DurationFormatter {
 		}
 		return DurationFormatUtils.formatDuration(duration,
 				(duration >= oneHour ? "HH:" : "") + "mm:ss");
-	}
-
-	public static String getDurationWords(long duration) {
-		return DurationFormatUtils.formatDurationWords(duration, true, true);
-	}
-
-	public static String getDurationDate(long duration) {
-		return frenchDateFormat.format(new Date(duration));
-	}
-
-	public static String getCurrentDate() {
-		return frenchDateFormat.format(new Date());
 	}
 
 }

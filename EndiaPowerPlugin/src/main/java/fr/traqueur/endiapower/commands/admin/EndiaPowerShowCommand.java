@@ -7,9 +7,10 @@ import fr.traqueur.endiapower.api.commands.EndiaCommand;
 import fr.traqueur.endiapower.api.commands.arguments.Arguments;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Command to show a power
+ */
 public class EndiaPowerShowCommand extends EndiaCommand {
-
-    private IManager powerManager;
 
     public EndiaPowerShowCommand(EndiaPowerPlugin plugin) {
         super(plugin, "show");
@@ -17,9 +18,6 @@ public class EndiaPowerShowCommand extends EndiaCommand {
         this.addAlias("view", "display", "see", "s");
 
         this.addArgs("power:power");
-
-        this.powerManager = plugin.getPowerManager();
-
     }
 
     @Override

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/**
+ * Argument converter for the IPower interface
+ */
 public class PowerArgument implements ArgumentConverter<IPower>, TabConverter {
 
     private final IManager powerManager;

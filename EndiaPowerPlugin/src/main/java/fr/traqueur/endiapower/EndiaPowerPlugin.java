@@ -29,15 +29,20 @@ public final class EndiaPowerPlugin extends JavaPlugin {
     private IManager powerManager;
     private InventoryManager inventoryManager;
 
+    /**
+     * Méthode appelée lorsque le plugin est chargé
+     */
     @Override
     public void onLoad() {
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             this.getLogger().severe("PlaceholderAPI not found...");
             this.getServer().shutdown();
         }
-
     }
 
+    /**
+     * Méthode appelée lorsque le plugin est activé
+     */
     @Override
     public void onEnable() {
         CommandManager commandManager = new CommandManager(this);
@@ -65,12 +70,21 @@ public final class EndiaPowerPlugin extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, powerManager::saveData, 0L, 20L * TimeUnit.HOURS.toSeconds(1));
     }
 
+    /**
+     * Méthode appelée lorsque le plugin est désactivé
+     */
     @Override
     public void onDisable() {
         CountdownUtils.saveCountdownsToFile(this);
         this.powerManager.saveData();
     }
 
+    /**
+     * Crée un GsonBuilder avec les adapters nécessaires
+     *
+     * @param manager le manager
+     * @return le GsonBuilder
+     */
     private GsonBuilder createGsonBuilder(IManager manager) {
         GsonBuilder ret = new GsonBuilder();
 
@@ -84,14 +98,29 @@ public final class EndiaPowerPlugin extends JavaPlugin {
         return ret;
     }
 
+    /**
+     * Récupère le manager de power
+     *
+     * @return le manager de power
+     */
     public IManager getPowerManager() {
         return this.powerManager;
     }
 
+    /**
+     * Récupère le Gson
+     *
+     * @return le Gson
+     */
     public Gson getGson() {
         return this.gson;
     }
 
+    /**
+     * Récupère l'InventoryManager
+     *
+     * @return l'InventoryManager
+     */
     public InventoryManager getInventoryManager() {
         return this.inventoryManager;
     }

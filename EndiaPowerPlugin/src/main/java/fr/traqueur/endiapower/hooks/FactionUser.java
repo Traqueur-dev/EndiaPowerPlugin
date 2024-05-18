@@ -6,6 +6,9 @@ import fr.traqueur.endiapower.api.IUser;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * Classe représentant un utilisateur de faction
+ */
 public record FactionUser(UUID uuid, HashMap<IPower, Integer> powers) implements IUser {
 
     @Override

@@ -11,9 +11,12 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Set;
 
+/**
+ * Command to list all powers
+ */
 public class EndiaPowerListPowersCommand extends EndiaCommand {
 
-    private IManager powerManager;
+    private final IManager powerManager;
 
     public EndiaPowerListPowersCommand(EndiaPowerPlugin plugin) {
         super(plugin, "listpowers");
