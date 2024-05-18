@@ -112,7 +112,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
      */
     private void registerCommand(EndiaCommand command, String label) throws TemplateArgumentNotExistException {
         try {
-            command.getPlugin().getLogger().info("&aRegister command &l" + label);
+            command.getPlugin().getLogger().info("Register command " + label);
             ArrayList<Argument> args = command.getArgs();
             ArrayList<Argument> optArgs = command.getOptinalArgs();
 
@@ -386,7 +386,6 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         String arg = args[args.length-1];
-
         for (int i = args.length; i >= 0; i--) {
             StringBuilder buffer = new StringBuilder();
             buffer.append(label.toLowerCase());
@@ -398,7 +397,15 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                 Map<Integer, TabConverter> map = this.completers.get(cmdLabel);
                 if(map.containsKey(args.length)) {
                     TabConverter converter = map.get(args.length);
-                    return converter.onCompletion().stream().filter(str -> str.toLowerCase().startsWith(arg.toLowerCase()) || str.equalsIgnoreCase(arg)).collect(Collectors.toList());
+                    List<String> completer = converter.onCompletion().stream().filter(str -> str.toLowerCase().startsWith(arg.toLowerCase()) || str.equalsIgnoreCase(arg)).toList();
+                    return completer.stream().filter(str -> {
+                        String cmdLabelInner = cmdLabel + "." + str.toLowerCase();
+                        if(this.commands.containsKey(cmdLabelInner)) {
+                            EndiaCommand endiaCommand = this.commands.get(cmdLabelInner);
+                            return endiaCommand.getPermission().isEmpty() || commandSender.hasPermission(endiaCommand.getPermission());
+                        }
+                        return true;
+                    }).collect(Collectors.toList());
                 }
             }
         }

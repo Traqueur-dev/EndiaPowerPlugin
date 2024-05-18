@@ -132,4 +132,14 @@ public class CountdownUtils {
     public static long getCountdownForPlayerLong(String alias, UUID player) {
         return countdowns.get(alias).get(player) - System.currentTimeMillis();
     }
+
+    /**
+     * Remove a countdown for a player
+     * @param uuid the player
+     * @param countdownName the name of the countdown
+     */
+    public static void removeCountdown(UUID uuid, String countdownName) {
+        if(countdowns.containsKey(countdownName))
+            countdowns.get(countdownName).remove(uuid);
+    }
 }

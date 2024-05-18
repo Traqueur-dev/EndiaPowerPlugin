@@ -8,13 +8,16 @@ import fr.traqueur.endiapower.api.IUser;
 import fr.traqueur.endiapower.hooks.FactionUser;
 import fr.traqueur.endiapower.models.Powers;
 import fr.traqueur.endiapower.models.PlayerUser;
+import fr.traqueur.endiapower.utils.CountdownUtils;
 import fr.traqueur.endiapower.utils.DiscUtils;
+import it.unimi.dsi.fastutil.Hash;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PowerManager implements IManager {
@@ -31,7 +34,7 @@ public class PowerManager implements IManager {
     public PowerManager(EndiaPowerPlugin plugin) {
         this.plugin = plugin;
         this.powers = new HashSet<>();
-        this.users = new HashMap<>();
+        this.users = new ConcurrentHashMap<>();
     }
 
     public void registerHook(Class<? extends IUser> clazz) {
@@ -188,6 +191,64 @@ public class PowerManager implements IManager {
 
     @Override
     public void reload() {
-        this.loadData();
+        Set<IPower> oldPowers = new HashSet<>(this.powers);
+        Map<Class<? extends IUser>, HashMap<UUID, IUser>> oldUsers = new ConcurrentHashMap<>(this.users);
+
+        try {
+            CountdownUtils.loadCountdownsFromFile(plugin);
+        } catch (Exception e) {
+            plugin.getLogger().severe("An error occurred while loading countdowns on reload.");
+            return;
+        }
+
+        String content = DiscUtils.readCatch(this.getFile(POWERS_FILE));
+        if (content != null) {
+            this.powers.clear();
+            try {
+                this.powers.addAll(plugin.getGson().fromJson(content, TYPE_POWERS.getType()));
+            } catch (Exception e) {
+                this.powers.addAll(oldPowers);
+                plugin.getLogger().severe("An error occurred while loading powers. The old powers have been restored.");
+            }
+        }
+
+        String contentUsers = DiscUtils.readCatch(this.getFile(USERS_FILE));
+        if (contentUsers != null) {
+            this.users.clear();
+            try {
+                this.users.putAll(plugin.getGson().fromJson(contentUsers, TYPE_USERS.getType()));
+            } catch (Exception e) {
+                this.users.putAll(oldUsers);
+
+                this.users.forEach((clazz, map)
+                        -> map.forEach((uuid, user)
+                        -> user.getPowers().entrySet().iterator().forEachRemaining(entry -> {
+                    IPower power = entry.getKey();
+                    int level = entry.getValue();
+                    if (this.powers.stream().anyMatch(power1 -> power1.getName().equalsIgnoreCase(power.getName()))) {
+                        user.revokePower(power);
+                        user.grantPower(this.powers.stream().filter(power1 -> power1.getName().equalsIgnoreCase(power.getName())).findFirst().orElse(null), level);
+                    }
+
+                    if (this.powers.stream().anyMatch(power1 -> power1.getId() == power.getId())) {
+                        user.revokePower(power);
+                        user.grantPower(this.powers.stream().filter(power1 -> power1.getId() == power.getId()).findFirst().orElse(null), level);
+                    }
+
+                    if (this.powers.contains(power) && this.getPower(power.getId()).getMaxLevel() < level) {
+                        user.revokePower(power);
+                        user.grantPower(power, power.getMaxLevel());
+                    }
+
+                    if (!this.powers.contains(power)) {
+                        user.revokePower(power);
+                    }
+
+                })));
+            }
+        }
+
+        this.saveData();
+        CountdownUtils.saveCountdownsToFile(plugin);
     }
 }
