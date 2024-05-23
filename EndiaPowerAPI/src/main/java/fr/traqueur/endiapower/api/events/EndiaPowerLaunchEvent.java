@@ -28,7 +28,7 @@ public class EndiaPowerLaunchEvent extends PlayerEvent implements Cancellable {
      * @param power The power used.
      * */
     public EndiaPowerLaunchEvent(@NotNull Player who, IPower power) {
-        super(who, true);
+        super(who, false);
         this.power = power;
         this.cancel = false;
     }

@@ -11,8 +11,13 @@ import fr.traqueur.endiapower.models.PlayerUser;
 import fr.traqueur.endiapower.utils.CountdownUtils;
 import fr.traqueur.endiapower.utils.DiscUtils;
 import it.unimi.dsi.fastutil.Hash;
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -158,6 +163,22 @@ public class PowerManager implements IManager {
         HashMap<UUID, IUser> users = this.users.get(user.getClass());
         users.put(uuid, user);
         this.users.put(user.getClass(), users);
+    }
+
+    public ItemStack getFormattedIcon(IPower power, Player player) {
+        ItemStack item = new ItemStack(power.getIcon());
+        ItemMeta meta = item.getItemMeta();
+        List<Component> lore = new ArrayList<>();
+
+        meta.displayName(Component.text(power.getName(), NamedTextColor.YELLOW));
+        lore.add(Component.text(PlaceholderAPI.setPlaceholders(player, "Niveau: %endiapower_level_"+power.getId() +"%"), NamedTextColor.GRAY));
+
+        String countdown = PlaceholderAPI.setPlaceholders(player, "%endiapower_cooldown_" + power.getId()+"%");
+        lore.add(Component.text("Countdown: " + (countdown.equals("X") ? "disponible" : countdown),countdown.equals("X") ? NamedTextColor.GREEN : NamedTextColor.RED));
+
+        meta.lore(lore);
+        item.setItemMeta(meta);
+        return item;
     }
 
     public File getFile(String name) {

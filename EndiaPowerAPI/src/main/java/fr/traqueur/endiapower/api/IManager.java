@@ -1,5 +1,8 @@
 package fr.traqueur.endiapower.api;
 
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -112,6 +115,8 @@ public interface IManager {
        * @param power
        */
       void revokePower(UUID uuid, IPower power);
+
+      ItemStack getFormattedIcon(IPower power, Player player);
 
       /**
        * Load data from the plugin

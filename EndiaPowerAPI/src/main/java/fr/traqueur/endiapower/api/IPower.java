@@ -16,6 +16,8 @@ public interface IPower {
       */
      String getName();
 
+     String getCountdownName();
+
      /**
       * Gets the icon of the power.
       *

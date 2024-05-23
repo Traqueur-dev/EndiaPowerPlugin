@@ -1,11 +1,9 @@
 package fr.traqueur.endiapower.commands;
 
 import fr.traqueur.endiapower.EndiaPowerPlugin;
-import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.commands.EndiaCommand;
 import fr.traqueur.endiapower.api.commands.arguments.Arguments;
 import fr.traqueur.endiapower.commands.admin.*;
-import fr.traqueur.endiapower.gui.PowersProvider;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,6 +31,6 @@ public class EndiaPowerCommand extends EndiaCommand {
     @Override
     public void execute(CommandSender sender, Arguments args) {
         Player player = (Player) sender;
-        PowersProvider.getInventory(this.plugin).open(player);
+        this.plugin.getInventoryManager().openInventory(player, "powers_inventory");
     }
 }
