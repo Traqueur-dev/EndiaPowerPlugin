@@ -51,8 +51,8 @@ public class PowerButton extends ZButton implements PaginateButton {
                     return;
                 }
                 EndiaPowerLaunchEvent eventPower = new EndiaPowerLaunchEvent(player, power);
-                Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> Bukkit.getPluginManager().callEvent(eventPower));
-                if (event.isCancelled()) {
+                Bukkit.getPluginManager().callEvent(eventPower);
+                if (eventPower.isCancelled()) {
                     return;
                 }
                 power.onUse(player);

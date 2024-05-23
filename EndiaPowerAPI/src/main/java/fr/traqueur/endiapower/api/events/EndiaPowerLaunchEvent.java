@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EndiaPowerLaunchEvent extends PlayerEvent implements Cancellable {
 
-    private static HandlerList HANDLERS_LIST = new HandlerList();
+    private final static HandlerList HANDLERS_LIST = new HandlerList();
 
     public static HandlerList getHandlersList() {
         return HANDLERS_LIST;
@@ -19,7 +19,7 @@ public class EndiaPowerLaunchEvent extends PlayerEvent implements Cancellable {
     private boolean cancel;
 
     public EndiaPowerLaunchEvent(@NotNull Player who, IPower power) {
-        super(who, true);
+        super(who, false);
         this.power = power;
         this.cancel = false;
     }
