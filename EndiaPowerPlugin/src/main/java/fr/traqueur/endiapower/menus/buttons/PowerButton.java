@@ -14,6 +14,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ public class PowerButton extends ZButton implements PaginateButton {
 
     private final Plugin plugin;
     private final IManager powerManager;
+    private BukkitTask task;
 
     public PowerButton(Plugin plugin) {
         this.plugin = plugin;
@@ -36,6 +38,22 @@ public class PowerButton extends ZButton implements PaginateButton {
 
     @Override
     public void onRender(Player player, InventoryDefault inventory) {
+        displayItems(player, inventory);
+    }
+
+    @Override
+    public void onInventoryOpen(Player player, InventoryDefault inventory) {
+        this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, () -> {
+            displayItems(player, inventory);
+        }, 0, 20);
+    }
+
+    @Override
+    public void onInventoryClose(Player player, InventoryDefault inventory) {
+        this.task.cancel();
+    }
+
+    private void displayItems(Player player, InventoryDefault inventory) {
         Pagination<IPower> pagination = new Pagination<>();
         HashMap<IPower, Integer> powers = this.powerManager.getAllPlayerPowers(player.getUniqueId());
         List<IPower> buttons = pagination.paginate(List.copyOf(powers.keySet()), this.slots.size(), inventory.getPage());
@@ -46,6 +64,7 @@ public class PowerButton extends ZButton implements PaginateButton {
             UUID uuid = player.getUniqueId();
 
             inventory.addItem(slot, this.powerManager.getFormattedIcon(power, player)).setClick(event -> {
+                player.closeInventory();
                 if (CountdownUtils.isOnCountdown(power.getCountdownName(), uuid)) {
                     player.sendMessage(Component.text("Vous ne pouvez pas utiliser de pouvoir.", NamedTextColor.RED));
                     return;
@@ -58,7 +77,6 @@ public class PowerButton extends ZButton implements PaginateButton {
                 power.onUse(player);
                 player.sendMessage(Component.text("Vous venez d'utiliser un pouvoir.", NamedTextColor.GREEN));
                 CountdownUtils.addCountdown(power.getCountdownName(), uuid, power.getCountdown());
-                player.closeInventory();
             });
         }
     }
