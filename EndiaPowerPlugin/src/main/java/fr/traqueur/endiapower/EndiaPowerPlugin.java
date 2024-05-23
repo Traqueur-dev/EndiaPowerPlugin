@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.maxlego08.menu.api.ButtonManager;
 import fr.maxlego08.menu.api.InventoryManager;
+import fr.maxlego08.menu.button.loader.NoneLoader;
 import fr.maxlego08.menu.exceptions.InventoryException;
 import fr.traqueur.endiapower.api.IManager;
 import fr.traqueur.endiapower.api.IPower;
@@ -13,9 +14,8 @@ import fr.traqueur.endiapower.commands.EndiaPowerCommand;
 import fr.traqueur.endiapower.commands.arguments.PowerArgument;
 import fr.traqueur.endiapower.hooks.FactionUser;
 import fr.traqueur.endiapower.managers.PowerManager;
-import fr.traqueur.endiapower.menus.PowerButton;
-import fr.traqueur.endiapower.menus.PowerInventory;
-import fr.traqueur.endiapower.menus.PowerLoader;
+import fr.traqueur.endiapower.menus.PowersInventory;
+import fr.traqueur.endiapower.menus.buttons.PowerButton;
 import fr.traqueur.endiapower.models.adapters.ClassUserAdapter;
 import fr.traqueur.endiapower.models.adapters.PowerAdapter;
 import fr.traqueur.endiapower.models.adapters.UserAdapter;
@@ -25,7 +25,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public final class EndiaPowerPlugin extends JavaPlugin {
@@ -56,6 +55,9 @@ public final class EndiaPowerPlugin extends JavaPlugin {
 
         CountdownUtils.loadCountdownsFromFile(this);
 
+        this.powerManager = new PowerManager(this);
+        this.getServer().getServicesManager().register(IManager.class, this.powerManager, this, ServicePriority.Normal);
+
         this.inventoryManager = this.getProvider(InventoryManager.class);
         ButtonManager buttonManager = this.getProvider(ButtonManager.class);
 
@@ -66,17 +68,14 @@ public final class EndiaPowerPlugin extends JavaPlugin {
         }
 
         buttonManager.unregisters(this);
-        buttonManager.register(new PowerLoader(this, PowerButton.class, "endiapower_power_button"));
+        buttonManager.register(new NoneLoader(this, PowerButton.class, "endiapower_power"));
 
         inventoryManager.deleteInventories(this);
         try {
-            this.inventoryManager.loadInventoryOrSaveResource(this,"powers_inventory.yml", PowerInventory.class);
+            this.inventoryManager.loadInventoryOrSaveResource(this,"powers_inventory.yml", PowersInventory.class);
         } catch (InventoryException e) {
             throw new RuntimeException(e);
         }
-
-        this.powerManager = new PowerManager(this);
-        this.getServer().getServicesManager().register(IManager.class, this.powerManager, this, ServicePriority.Normal);
 
         this.powerManager.registerHook(FactionUser.class);
 

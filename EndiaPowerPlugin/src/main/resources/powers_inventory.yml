@@ -1,17 +1,47 @@
-name: '&fPowers'
-size: 54
+name: "&8Powers [%page%/%maxPage%]"
+size: 27
+updateInterval: 1
 items:
-  previous-btn:
-    slot: 48
-    item:
-      material: ARROW
-      name: '&ePage précédente'
-    type: PREVIOUS
+  decoration:
     isPermanent: true
-  next-btn:
-    slot: 50
     item:
-      material: ARROW
-      name: '&ePage suivante'
+      material: GRAY_STAINED_GLASS_PANE
+      name: "&e"
+    slots:
+      - 0-9
+      - 17
+      - 19-25
+  next:
     type: NEXT
     isPermanent: true
+    slot: 26
+    item:
+      material: ARROW
+      name: "&fNext"
+    else:
+      slot: 26
+      type: NONE
+      isPermanent: true
+      item:
+        material: GRAY_STAINED_GLASS_PANE
+        name: "&e"
+  previous:
+    type: PREVIOUS
+    isPermanent: true
+    slot: 18
+    item:
+      material: ARROW
+      name: "&fPrevious"
+    else:
+      slot: 18
+      type: NONE
+      isPermanent: true
+      item:
+        material: GRAY_STAINED_GLASS_PANE
+        name: "&e"
+  items:
+    isPermanent: true
+    update: true
+    type: ENDIAPOWER_POWER
+    slots:
+      - 10-16

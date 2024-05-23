@@ -12,12 +12,7 @@ import java.util.concurrent.TimeUnit;
  */
 public enum Powers implements IPower {
 
-    ARRESTO_MEMENTOMUN(1,"Arresto Mementomun", 3, Material.STICK) {
-        @Override
-        public int getCountdown() {
-            return (int) TimeUnit.MINUTES.toSeconds(10);
-        }
-
+    ARRESTO_MEMENTOMUN(1,"Arresto Mementomun", 3, Material.STICK, (int) TimeUnit.MINUTES.toSeconds(10)) {
         @Override
         public void onUse(Player player) {}
     },
@@ -28,8 +23,9 @@ public enum Powers implements IPower {
     private final String name;
     private final int maxLevel;
     private final Material icon;
+    private final int countdown;
 
-     Powers(int id, String name, int level, Material icon) {
+     Powers(int id, String name, int level, Material icon, int countdown) {
         if(icon == Material.AIR) {
             throw new IllegalArgumentException("Icon must be not air");
         }
@@ -40,10 +36,15 @@ public enum Powers implements IPower {
         this.name = name;
         this.maxLevel = level;
         this.icon = icon;
+        this.countdown = countdown;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public String getCountdownName() {
+        return this.name.replace(" ", "_").toUpperCase();
     }
 
     public ItemStack getIcon() {
@@ -57,5 +58,10 @@ public enum Powers implements IPower {
     @Override
     public int getMaxLevel() {
         return this.maxLevel;
+    }
+
+    @Override
+    public int getCountdown() {
+         return countdown;
     }
 }

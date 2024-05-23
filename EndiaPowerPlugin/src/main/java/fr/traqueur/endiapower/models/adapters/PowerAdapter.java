@@ -20,6 +20,7 @@ public class PowerAdapter extends TypeAdapter<IPower> {
         jsonWriter.name("name").value(power.getName());
         jsonWriter.name("maxLevel").value(power.getMaxLevel());
         jsonWriter.name("countdown").value(power.getCountdown());
+        jsonWriter.name("countdownName").value(power.getCountdownName());
         jsonWriter.name("icon").value(power.getIcon().getType().name());
         jsonWriter.endObject();
 
@@ -29,6 +30,7 @@ public class PowerAdapter extends TypeAdapter<IPower> {
     public IPower read(JsonReader jsonReader) throws IOException {
         int id = 0;
         String name = null;
+        String countdownName = null;
         int maxLevel = 0;
         Material icon = null;
         int countdown = 0;
@@ -41,14 +43,15 @@ public class PowerAdapter extends TypeAdapter<IPower> {
                 case "maxLevel" -> maxLevel = jsonReader.nextInt();
                 case "icon" -> icon = Material.getMaterial(jsonReader.nextString());
                 case "countdown" -> countdown = jsonReader.nextInt();
+                case "countdownName" -> countdownName = jsonReader.nextString();
             }
         }
         jsonReader.endObject();
 
-        return new Power(id, name, maxLevel, icon, countdown);
+        return new Power(id, name, maxLevel, icon, countdown, countdownName);
     }
 
-    private record Power(int id, String name, int maxLevel, Material icon, int countdown) implements IPower {
+    private record Power(int id, String name, int maxLevel, Material icon, int countdown, String countdownName) implements IPower {
 
         private Power {
             if(icon == Material.AIR) {
@@ -82,6 +85,11 @@ public class PowerAdapter extends TypeAdapter<IPower> {
         @Override
         public int getCountdown() {
             return this.countdown;
+        }
+
+        @Override
+        public String getCountdownName() {
+            return this.countdownName;
         }
 
         @Override

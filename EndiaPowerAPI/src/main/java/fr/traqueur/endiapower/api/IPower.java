@@ -7,6 +7,8 @@ public interface IPower {
 
      String getName();
 
+     String getCountdownName();
+
      ItemStack getIcon();
 
      int getId();
