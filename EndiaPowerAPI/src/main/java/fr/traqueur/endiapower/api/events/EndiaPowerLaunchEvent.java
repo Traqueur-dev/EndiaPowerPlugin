@@ -7,9 +7,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The class EndiaPowerLaunchEvent.
+ * <p> This class is used to represent the event when a player uses a power. </p>
+ * */
 public class EndiaPowerLaunchEvent extends PlayerEvent implements Cancellable {
 
-    private final static HandlerList HANDLERS_LIST = new HandlerList();
+    private static final HandlerList HANDLERS_LIST = new HandlerList();
 
     public static HandlerList getHandlersList() {
         return HANDLERS_LIST;
@@ -18,6 +22,11 @@ public class EndiaPowerLaunchEvent extends PlayerEvent implements Cancellable {
     private final IPower power;
     private boolean cancel;
 
+    /**
+     * Constructor of the class EndiaPowerLaunchEvent.
+     * @param who The player who uses the power.
+     * @param power The power used.
+     * */
     public EndiaPowerLaunchEvent(@NotNull Player who, IPower power) {
         super(who, false);
         this.power = power;

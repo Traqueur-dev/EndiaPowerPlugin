@@ -1,6 +1,5 @@
 package fr.traqueur.endiapower.api.commands.arguments;
 
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
